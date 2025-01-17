@@ -6,21 +6,15 @@ namespace Blazor.AdminLte
 {
     public partial class Button
     {
-        [Parameter]
-        public ButtonSize Size { get; set; }
-        [Parameter]
-        public ButtonType Type { get; set; }
-        [Parameter]
-        public Color Color { get; set; }
+        [Parameter] public ButtonSize Size { get; set; }
+        [Parameter] public ButtonType Type { get; set; }
+        [Parameter] public Color Color { get; set; }
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter]
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        [Parameter]
-        public bool Disabled { get; set; }
+        [Parameter] public bool Disabled { get; set; }
 
         private IDictionary<string, object> Attributes => GetAttributes();
 
@@ -31,16 +25,17 @@ namespace Blazor.AdminLte
         }
 
         private string DisplaySize =>
-            Size == ButtonSize.Normal ?
-            string.Empty :
-            $"{Size.GetDescription<StyleAttribute>()}";
+            Size == ButtonSize.Normal ? string.Empty : $"{Size.GetDescription<StyleAttribute>()}";
+
         private string DisplayColor =>
-            Color == Color.Default ?
-            "default" :
-            $"{Color.GetDescription<StyleAttribute>()}";
-        public string DisplayButtonType {
-            get {
-                switch (Type) {
+            Color == Color.Default ? "default" : $"{Color.GetDescription<StyleAttribute>()}";
+
+        public string DisplayButtonType
+        {
+            get
+            {
+                switch (Type)
+                {
                     case ButtonType.Outline:
                         return $"btn-{Type.GetDescription<StyleAttribute>()}-{DisplayColor}";
                     case ButtonType.Gradient:
@@ -48,14 +43,15 @@ namespace Blazor.AdminLte
                     default:
                         break;
                 }
+
                 return $"btn-{DisplayColor}";
-            } 
+            }
         }
 
         private IDictionary<string, object> GetAttributes()
         {
             var attributes = new Dictionary<string, object>();
-            attributes["type"] = "button";
+            attributes["type"] = Type == ButtonType.Submit ? "submit" : "button";
             attributes["class"] = "btn";
             attributes["class"] = $"{attributes["class"]} btn-block";
             attributes["class"] = $"{attributes["class"]} {DisplayButtonType}";
@@ -63,6 +59,7 @@ namespace Blazor.AdminLte
             {
                 attributes["class"] = $"{attributes["class"]} btn-{DisplaySize}";
             }
+
             if (Disabled)
             {
                 attributes["class"] = $"{attributes["class"]} disabled";
